@@ -28,7 +28,7 @@
 
         <div class="form-group form-inline">
           <div class="col-sm-2">
-             <label>Proficiency</label>
+            <label>Proficiency</label>
           </div>
           <div class="col-sm-8">
             <div class="form-check-inline">
@@ -55,7 +55,17 @@
 
     </div>
     <div class="card-footer">
-      <button class="btn btn-primary" type="submit">Save</button>
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+          <button class="btn btn-primary" type="submit">Save</button>
+        </div>
+        <div class="btn-group mr-2" role="group" aria-label="Second group">
+          <button class="btn btn-primary" type="button" (click)='onLoadDataClick()'>Load Data</button>
+        </div>
+        <div class="btn-group mr-2" role="group" aria-label="Second group">
+            <button class="btn btn-primary" type="button" (click)='onPatchDataClick()'>Patch Data</button>
+          </div>
+      </div>
     </div>
   </div>
 </form>
