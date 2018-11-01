@@ -41,27 +41,32 @@ export class CreateEmployeeComponent implements OnInit {
         proficiency: ['', Validators.required]
       })
     });
+
+    this.employeeForm.valueChanges.subscribe(() => this.logValidationErrors(this.employeeForm));
   }
 
-  logValidationErrors(group: FormGroup): void {
+  logValidationErrors(group: FormGroup = this.employeeForm): void {
     Object.keys(group.controls).forEach((key: string) => {
-      const abstractControl = group.get(key);
-      if (abstractControl instanceof FormGroup) {
-        this.logValidationErrors(abstractControl);
+      const control = group.get(key);
+      if (control instanceof FormGroup) {
+        this.logValidationErrors(control);
       } else {
         this.formErrors[key] = '';
-        if (abstractControl && !abstractControl.valid) {
+        if (control && !control.valid && (control.touched || control.dirty)) {
           const messages = this.validationMessages[key];
           console.log('key: ', key, messages);
-          console.log('key: ', key, abstractControl.errors);
+          console.log('key: ', key, control.errors);
 
-          for (const errorKey in abstractControl.errors) {
+          for (const errorKey in control.errors) {
             if (errorKey) {
               this.formErrors[key] += messages[errorKey] + ' ';
             }
           }
         }
       }
+
+      console.log(this.formErrors);
+
     });
   }
 
@@ -69,7 +74,7 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   onLoadDataClick(): void {
-    this.logValidationErrors(this.employeeForm);
-    console.log(this.formErrors);
+    // this.logValidationErrors(this.employeeForm);
+    // console.log(this.formErrors);
   }
 }

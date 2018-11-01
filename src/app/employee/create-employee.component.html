@@ -4,33 +4,55 @@
       <h3>Create Employee</h3>
     </div>
     <div class="card-body">
+
+      <!-- Full Name -->
       <div class="form-group">
         <label for="fullName" class="col-sm-2 control-label">Full Name</label>
         <div class="col-sm-8">
-          <input formControlName="fullName" id="fullName" type="text" class="form-control" [class.is-invalid]="employeeForm.controls.fullName.errors && (employeeForm.controls.fullName.touched || employeeForm.controls.fullName.dirty)">
-          <div  *ngIf="!(employeeForm.controls.fullName.errors?.minlength || employeeForm.controls.fullName.errors?.maxlength)" class="invalid-feedback">Fullname is a required field.</div>
-          <div  *ngIf="employeeForm.controls.fullName.errors?.minlength || employeeForm.controls.fullName.errors?.maxlength " class="invalid-feedback">Fullname must be greater than 2 characters and less than 10 characters</div>
-          <!-- [class.is-invalid]="employeeForm.get('fullName').errors && (employeeForm.get('fullName').touched || employeeForm.get('fullName').dirty)" -->
-          <!-- [ngClass]="{'is-invalid': employeeForm.get('fullName').errors}" > -->
+          <input formControlName="fullName" id="fullName" type="text" class="form-control" (blur)="logValidationErrors()"
+            [class.is-invalid]="formErrors.fullName">
+          <span class="invalid-feedback">
+            {{formErrors.fullName}}
+          </span>
         </div>
       </div>
+
+      <!-- Email -->
       <div class="form-group">
         <label for="email" class="col-sm-2 control-label">Email</label>
         <div class="col-sm-8">
-          <input formControlName="email" id=email type="text" class="form-control"></div>
+          <input formControlName="email" id=email type="text" class="form-control" (blur)="logValidationErrors()"
+            [class.is-invalid]="formErrors.email">
+          <span class="invalid-feedback">
+            {{formErrors.email}}
+          </span>
+        </div>
       </div>
 
+      <!-- Skills -->
       <div formGroupName="skills">
         <div class="form-group form-inline">
+          <!-- Skills Name -->
           <label for="skillName" class="col-sm-2 control-label">Skill</label>
           <div class="col-sm-4">
-            <input type="text" id="skillName" placeholder="Name" formControlName="skillName" class="form-control">
+            <input type="text" id="skillName" placeholder="Name" formControlName="skillName" class="form-control"
+              (blur)="logValidationErrors()" [class.is-invalid]="formErrors.skillName">
+            <span class="invalid-feedback">
+              {{formErrors.skillName}}
+            </span>
           </div>
+
+          <!-- Experience in Years -->
           <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Experience in Years" formControlName="experienceInYears">
+            <input type="text" class="form-control" placeholder="Experience in Years" formControlName="experienceInYears"
+              (blur)="logValidationErrors()" [class.is-invalid]="formErrors.experienceInYears">
+            <span class="invalid-feedback">
+              {{formErrors.experienceInYears}}
+            </span>
           </div>
         </div>
 
+        <!-- Proficiency -->
         <div class="form-group form-inline">
           <div class="col-sm-2">
             <label>Proficiency</label>
@@ -38,26 +60,31 @@
           <div class="col-sm-8">
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input type="radio" id="proficiency" value="beginner" formControlName="proficiency" class="form-check-input">Beginner
+                <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                  value="beginner" formControlName="proficiency" class="form-check-input">Beginner <br>
               </label>
             </div>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input type="radio" id="proficiency" value="intermediate" formControlName="proficiency" class="form-check-input">intermediate
-              </label>
+                <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                  value="intermediate" formControlName="proficiency" class="form-check-input">intermediate
+              </label> 
             </div>
             <div class="form-check-inline">
               <label class="form-check-label">
-                <input type="radio" id="proficiency" value="advanced" formControlName="proficiency" class="form-check-input">Advanced
+                <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                  value="advanced" formControlName="proficiency" class="form-check-input">Advanced
               </label>
             </div>
+            <div *ngIf="formErrors.proficiency">
+              <span [class.is-invalid]="formErrors.proficiency">{{formErrors.proficiency}}</span>
+            </div>
+
+
           </div>
+
         </div>
-
       </div>
-
-
-
     </div>
     <div class="card-footer">
       <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -84,12 +111,11 @@
       <br>valid: {{employeeForm.valid}}
       <br>value: {{employeeForm.value | json}}
     </td>
-    <td style="padding:10px">touched: {{employeeForm.get('fullName').touched}}
+    <td style="padding:10px">touched: {{employeeForm.get('email').touched}}
       <br>dirty: {{employeeForm.get('fullName').dirty}}
       <br>valid: {{employeeForm.get('fullName').valid}}
       <br>value: {{employeeForm.get('fullName').value | json}}
       <br>errors: {{employeeForm.get('fullName').errors | json}}
     </td>
-
   </tr>
 </table>
