@@ -8,59 +8,68 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class CreateEmployeeComponent implements OnInit {
   employeeForm: FormGroup;
-  fullNameLength = 0;
+
+  validationMessages = {
+    'fullName': {
+      'required': 'Full Name is required.',
+      'minlength': 'Full Name must be greater than 3 characters.',
+      'maxlength': 'Full Name must be less than 10 characters.'
+    },
+    'email': { 'required': 'Email is required.' },
+    'skillName': { 'required': 'Skill Name is required.' },
+    'experienceInYears': { 'required': 'Experience is required.' },
+    'proficiency': { 'required': 'Proficiency is required.' }
+  };
+
+  formErrors = {
+    'fullName': '',
+    'email': '',
+    'skillName': '',
+    'experienceInYears': '',
+    'proficiency': '',
+  };
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.employeeForm = this.fb.group({
-      fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
-      email: [''],
+      fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
+      email: ['', Validators.required],
       skills: this.fb.group({
-        skillName: [''],
-        experienceInYears: [''],
-        proficiency: ['beginner']
+        skillName: ['', Validators.required],
+        experienceInYears: ['', Validators.required],
+        proficiency: ['', Validators.required]
       })
     });
   }
 
-  logKeyValuePairs(group: FormGroup): void {
+  logValidationErrors(group: FormGroup): void {
     Object.keys(group.controls).forEach((key: string) => {
       const abstractControl = group.get(key);
       if (abstractControl instanceof FormGroup) {
-        this.logKeyValuePairs(abstractControl);
+        this.logValidationErrors(abstractControl);
       } else {
-        console.log('Key = ' + key + ' value = ' + abstractControl.value);
-        abstractControl.disable();
+        this.formErrors[key] = '';
+        if (abstractControl && !abstractControl.valid) {
+          const messages = this.validationMessages[key];
+          console.log('key: ', key, messages);
+          console.log('key: ', key, abstractControl.errors);
+
+          for (const errorKey in abstractControl.errors) {
+            if (errorKey) {
+              this.formErrors[key] += messages[errorKey] + ' ';
+            }
+          }
+        }
       }
     });
   }
 
   onSubmit(): void {
-    console.log(this.employeeForm.touched);
-    console.log(this.employeeForm.value);
-    console.log(this.employeeForm.controls.fullName.touched);
-    console.log(this.employeeForm.get('fullName').value);
   }
 
   onLoadDataClick(): void {
-    this.employeeForm.setValue({
-      fullName: 'Pragim Technologies',
-      email: 'pragim@pragimtech.com',
-      skills: {
-        skillName: 'C#',
-        experienceInYears: 5,
-        proficiency: 'beginner'
-      }
-    });
-
-    this.logKeyValuePairs(this.employeeForm);
-  }
-
-  onPatchDataClick(): void {
-    this.employeeForm.patchValue({
-      fullName: 'Bart Van Hoey',
-      email: 'bvh@pragimtech.com',
-    });
+    this.logValidationErrors(this.employeeForm);
+    console.log(this.formErrors);
   }
 }
