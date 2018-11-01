@@ -22,17 +22,17 @@ export class CreateEmployeeComponent implements OnInit {
         proficiency: ['beginner']
       })
     });
-    this.employeeForm.get('fullName').valueChanges.subscribe((value: string) => {
-      // console.log(value);
-      this.fullNameLength = value.length;
-    });
+  }
 
-    this.employeeForm.valueChanges.subscribe(value => {
-      // console.log(JSON.stringify(value));
-    });
-
-    this.employeeForm.get('skills').valueChanges.subscribe(value => {
-      console.log(JSON.stringify(value));
+  logKeyValuePairs(group: FormGroup): void {
+    Object.keys(group.controls).forEach((key: string) => {
+      const abstractControl = group.get(key);
+      if (abstractControl instanceof FormGroup) {
+        this.logKeyValuePairs(abstractControl);
+      } else {
+        console.log('Key = ' + key + ' value = ' + abstractControl.value);
+        abstractControl.disable();
+      }
     });
   }
 
@@ -53,7 +53,10 @@ export class CreateEmployeeComponent implements OnInit {
         proficiency: 'beginner'
       }
     });
+
+    this.logKeyValuePairs(this.employeeForm);
   }
+
   onPatchDataClick(): void {
     this.employeeForm.patchValue({
       fullName: 'Bart Van Hoey',
