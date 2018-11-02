@@ -6,7 +6,7 @@
     <div class="card-body">
 
       <!-- Full Name -->
-      <div class="form-group">
+      <div class="form-group ">
         <label for="fullName" class="col-sm-2 control-label">Full Name</label>
         <div class="col-sm-8">
           <input formControlName="fullName" id="fullName" type="text" class="form-control" (blur)="logValidationErrors()"
@@ -14,6 +14,25 @@
           <span class="invalid-feedback">
             {{formErrors.fullName}}
           </span>
+        </div>
+      </div>
+
+      <!-- Contact Preference -->
+      <div class="form-group  form-inline">
+        <div class="col-sm-2">
+          <label>Contact Preference</label>
+        </div>
+        <div class="col-sm-8">
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" value="email" formControlName="contactPreference">Email
+            </label>
+          </div>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" value="phone" formControlName="contactPreference">Phone
+            </label>
+          </div>
         </div>
       </div>
 
@@ -25,6 +44,18 @@
             [class.is-invalid]="formErrors.email">
           <span class="invalid-feedback">
             {{formErrors.email}}
+          </span>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label for="phone" class="col-sm-2 control-label">Phone</label>
+        <div class="col-sm-8">
+          <input formControlName="phone" id=phone type="text" class="form-control" (blur)="logValidationErrors()"
+            [class.is-invalid]="formErrors.phone">
+          <span class="invalid-feedback">
+            {{formErrors.phone}}
           </span>
         </div>
       </div>
@@ -68,7 +99,7 @@
               <label class="form-check-label">
                 <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
                   value="intermediate" formControlName="proficiency" class="form-check-input">intermediate
-              </label> 
+              </label>
             </div>
             <div class="form-check-inline">
               <label class="form-check-label">
@@ -79,8 +110,6 @@
             <div *ngIf="formErrors.proficiency">
               <span [class.is-invalid]="formErrors.proficiency">{{formErrors.proficiency}}</span>
             </div>
-
-
           </div>
 
         </div>

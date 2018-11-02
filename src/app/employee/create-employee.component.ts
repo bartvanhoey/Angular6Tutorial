@@ -16,6 +16,7 @@ export class CreateEmployeeComponent implements OnInit {
       'maxlength': 'Full Name must be less than 10 characters.'
     },
     'email': { 'required': 'Email is required.' },
+    'phone': { 'required': 'Phone is required.' },
     'skillName': { 'required': 'Skill Name is required.' },
     'experienceInYears': { 'required': 'Experience is required.' },
     'proficiency': { 'required': 'Proficiency is required.' }
@@ -24,6 +25,7 @@ export class CreateEmployeeComponent implements OnInit {
   formErrors = {
     'fullName': '',
     'email': '',
+    'phone': '',
     'skillName': '',
     'experienceInYears': '',
     'proficiency': '',
@@ -34,13 +36,17 @@ export class CreateEmployeeComponent implements OnInit {
   ngOnInit() {
     this.employeeForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
+      contactPreference: ['email'],
       email: ['', Validators.required],
+      phone: [''],
       skills: this.fb.group({
         skillName: ['', Validators.required],
         experienceInYears: ['', Validators.required],
         proficiency: ['', Validators.required]
       })
     });
+
+    this.employeeForm.get('contactPreference').valueChanges.subscribe((data: string) => this.onContactPreferenceChanged(data));
 
     this.employeeForm.valueChanges.subscribe(() => this.logValidationErrors(this.employeeForm));
   }
@@ -54,9 +60,6 @@ export class CreateEmployeeComponent implements OnInit {
         this.formErrors[key] = '';
         if (control && !control.valid && (control.touched || control.dirty)) {
           const messages = this.validationMessages[key];
-          console.log('key: ', key, messages);
-          console.log('key: ', key, control.errors);
-
           for (const errorKey in control.errors) {
             if (errorKey) {
               this.formErrors[key] += messages[errorKey] + ' ';
@@ -64,9 +67,6 @@ export class CreateEmployeeComponent implements OnInit {
           }
         }
       }
-
-      console.log(this.formErrors);
-
     });
   }
 
@@ -76,5 +76,24 @@ export class CreateEmployeeComponent implements OnInit {
   onLoadDataClick(): void {
     // this.logValidationErrors(this.employeeForm);
     // console.log(this.formErrors);
+  }
+
+  onContactPreferenceChanged(selectedValue: string) {
+    const phoneControl = this.employeeForm.get('phone');
+    const emailControl = this.employeeForm.get('email');
+
+    if (selectedValue === 'phone') {
+      phoneControl.setValidators([Validators.required]);
+    } else {
+      phoneControl.clearValidators();
+    }
+    phoneControl.updateValueAndValidity();
+
+    if (selectedValue === 'email') {
+      emailControl.setValidators([Validators.required]);
+    } else {
+      emailControl.clearValidators();
+    }
+    emailControl.updateValueAndValidity();
   }
 }
