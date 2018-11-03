@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create-employee',
@@ -15,7 +15,10 @@ export class CreateEmployeeComponent implements OnInit {
       'minlength': 'Full Name must be greater than 3 characters.',
       'maxlength': 'Full Name must be less than 10 characters.'
     },
-    'email': { 'required': 'Email is required.' },
+    'email': {
+      'required': 'Email is required.',
+      'emailDomain': 'Email domain should be pragimtech.com'
+    },
     'phone': { 'required': 'Phone is required.' },
     'skillName': { 'required': 'Skill Name is required.' },
     'experienceInYears': { 'required': 'Experience is required.' },
@@ -37,7 +40,7 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       contactPreference: ['email'],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, emailDomain]],
       phone: [''],
       skills: this.fb.group({
         skillName: ['', Validators.required],
@@ -96,4 +99,13 @@ export class CreateEmployeeComponent implements OnInit {
     }
     emailControl.updateValueAndValidity();
   }
+}
+
+function emailDomain(control: AbstractControl): { [key: string]: any } | null {
+  const email: string = control.value;
+  const domain = email.substring(email.lastIndexOf('@') + 1);
+  if (email === '' || domain.toLowerCase() === 'pragimtech.com') {
+    return null;
+  }
+  return { 'emailDomain': true };
 }
