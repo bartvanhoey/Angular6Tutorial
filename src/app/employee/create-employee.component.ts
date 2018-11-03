@@ -17,7 +17,7 @@ export class CreateEmployeeComponent implements OnInit {
     },
     'email': {
       'required': 'Email is required.',
-      'emailDomain': 'Email domain should be pragimtech.com'
+      'emailDomain': 'Email domain should be hotmail.com'
     },
     'phone': { 'required': 'Phone is required.' },
     'skillName': { 'required': 'Skill Name is required.' },
@@ -40,7 +40,7 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       contactPreference: ['email'],
-      email: ['', [Validators.required, emailDomain]],
+      email: ['', [Validators.required, emailDomain('hotmail.com')]],
       phone: [''],
       skills: this.fb.group({
         skillName: ['', Validators.required],
@@ -101,11 +101,14 @@ export class CreateEmployeeComponent implements OnInit {
   }
 }
 
-function emailDomain(control: AbstractControl): { [key: string]: any } | null {
-  const email: string = control.value;
-  const domain = email.substring(email.lastIndexOf('@') + 1);
-  if (email === '' || domain.toLowerCase() === 'pragimtech.com') {
-    return null;
-  }
-  return { 'emailDomain': true };
+function emailDomain(domainName: string){
+  return (control: AbstractControl): { [key: string]: any } | null =>{
+    const email: string = control.value;
+    const domain = email.substring(email.lastIndexOf('@') + 1);
+   console.log({domain});
+    if (email === '' || domain.toLowerCase() === domainName.toLowerCase()) {
+      return null;
+    }
+    return { 'emailDomain': true };
+  };
 }
