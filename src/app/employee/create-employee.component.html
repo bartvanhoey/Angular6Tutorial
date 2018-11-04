@@ -36,15 +36,28 @@
         </div>
       </div>
 
-      <!-- Email -->
-      <div class="form-group">
-        <label for="email" class="col-sm-2 control-label">Email</label>
-        <div class="col-sm-8">
-          <input formControlName="email" id=email type="text" class="form-control" (blur)="logValidationErrors()"
-            [class.is-invalid]="formErrors.email">
-          <span class="invalid-feedback">
-            {{formErrors.email}}
-          </span>
+      <div formGroupName="emailGroup">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email" class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-8">
+            <input formControlName="email" id=email type="text" class="form-control" (blur)="logValidationErrors()"
+              [class.is-invalid]="formErrors.email">
+            <span class="invalid-feedback">
+              {{formErrors.email}}
+            </span>
+          </div>
+        </div>
+        <!-- Confirm Email -->
+        <div class="form-group">
+          <label for="confirmEmail" class="col-sm-2 control-label">Confirm Email</label>
+          <div class="col-sm-8">
+            <input formControlName="confirmEmail" id=confirmEmail type="text" class="form-control" (blur)="logValidationErrors()"
+              [class.is-invalid]="formErrors.confirmEmail || formErrors.emailGroup">
+            <span class="invalid-feedback">
+              {{formErrors.confirmEmail ? formErrors.confirmEmail : formErrors.emailGroup}}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -128,23 +141,44 @@
   </div>
 </form>
 
+<table border="1">
+  <tr>
+    <th style="padding:10px">Email</th>
+  </tr>
+  <tr>
+    <td style="padding:10px">touched: {{employeeForm.get('emailGroup').get('email').touched}}
+      <br>dirty: {{employeeForm.get('emailGroup').get('email').dirty}}
+      <br>valid: {{employeeForm.get('emailGroup').get('email').valid}}
+      <br>value: {{employeeForm.get('emailGroup').get('email').value | json}}
+      <br>errors: {{employeeForm.get('emailGroup').get('email').errors | json}}
+    </td>
+  </tr>
+</table>
 
 <table border="1">
   <tr>
-    <th style="padding:10px">FormGroup</th>
-    <th style="padding:10px">FormControl (fullName)</th>
+    <th style="padding:10px">Confirm Email</th>
   </tr>
   <tr>
-    <td style="padding:10px">touched: {{employeeForm.touched}}
-      <br>dirty: {{employeeForm.dirty}}
-      <br>valid: {{employeeForm.valid}}
-      <br>value: {{employeeForm.value | json}}
+    <td style="padding:10px">touched: {{employeeForm.get('emailGroup').get('confirmEmail').touched}}
+      <br>dirty: {{employeeForm.get('emailGroup').get('confirmEmail').dirty}}
+      <br>valid: {{employeeForm.get('emailGroup').get('confirmEmail').valid}}
+      <br>value: {{employeeForm.get('emailGroup').get('confirmEmail').value | json}}
+      <br>errors: {{employeeForm.get('emailGroup').get('confirmEmail').errors | json}}
     </td>
-    <td style="padding:10px">touched: {{employeeForm.get('email').touched}}
-      <br>dirty: {{employeeForm.get('fullName').dirty}}
-      <br>valid: {{employeeForm.get('fullName').valid}}
-      <br>value: {{employeeForm.get('fullName').value | json}}
-      <br>errors: {{employeeForm.get('fullName').errors | json}}
+  </tr>
+</table>
+
+<table border="1">
+  <tr>
+    <th style="padding:10px">Form Group</th>
+  </tr>
+  <tr>
+    <td style="padding:10px">touched: {{employeeForm.get('emailGroup').touched}}
+      <br>dirty: {{employeeForm.get('emailGroup').dirty}}
+      <br>valid: {{employeeForm.get('emailGroup').valid}}
+      <br>value: {{employeeForm.get('emailGroup').value | json}}
+      <br>errors: {{employeeForm.get('emailGroup').errors | json}}
     </td>
   </tr>
 </table>
