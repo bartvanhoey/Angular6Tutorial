@@ -1,6 +1,7 @@
+import { AbstractControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators} from '@angular/forms';
-import { CustomValidators} from '../../shared/custom.validators';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CustomValidators } from '../../shared/custom.validators';
 
 @Component({
   selector: 'app-create-employee',
@@ -19,7 +20,10 @@ export class CreateEmployeeComponent implements OnInit {
     'email': {
       'required': 'Email is required.',
       'emailDomain': 'Email domain should be hotmail.com'
+    }, 'confirmEmail': {
+      'required': 'Email is required.',
     },
+    'emailGroup': { 'emailMismatch': 'Email and Confirm Email do not match' },
     'phone': { 'required': 'Phone is required.' },
     'skillName': { 'required': 'Skill Name is required.' },
     'experienceInYears': { 'required': 'Experience is required.' },
@@ -29,6 +33,8 @@ export class CreateEmployeeComponent implements OnInit {
   formErrors = {
     'fullName': '',
     'email': '',
+    'confirmEmail': '',
+    'emailGroup': '',
     'phone': '',
     'skillName': '',
     'experienceInYears': '',
@@ -41,7 +47,10 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       contactPreference: ['email'],
-      email: ['', [Validators.required, CustomValidators.emailDomain('hotmail.com')]],
+      emailGroup: this.fb.group({
+        email: ['', [Validators.required, CustomValidators.emailDomain('hotmail.com')]],
+        confirmEmail: ['', [Validators.required]]
+      }, { validator: matchEmail }),
       phone: [''],
       skills: this.fb.group({
         skillName: ['', Validators.required],
@@ -58,18 +67,18 @@ export class CreateEmployeeComponent implements OnInit {
   logValidationErrors(group: FormGroup = this.employeeForm): void {
     Object.keys(group.controls).forEach((key: string) => {
       const control = group.get(key);
-      if (control instanceof FormGroup) {
-        this.logValidationErrors(control);
-      } else {
-        this.formErrors[key] = '';
-        if (control && !control.valid && (control.touched || control.dirty)) {
-          const messages = this.validationMessages[key];
-          for (const errorKey in control.errors) {
-            if (errorKey) {
-              this.formErrors[key] += messages[errorKey] + ' ';
-            }
+      this.formErrors[key] = '';
+      if (control && !control.valid && (control.touched || control.dirty)) {
+        const messages = this.validationMessages[key];
+        for (const errorKey in control.errors) {
+          if (errorKey) {
+            this.formErrors[key] += messages[errorKey] + ' ';
           }
         }
+      }
+
+      if (control instanceof FormGroup) {
+        this.logValidationErrors(control);
       }
     });
   }
@@ -102,3 +111,12 @@ export class CreateEmployeeComponent implements OnInit {
   }
 }
 
+function matchEmail(group: AbstractControl): { [key: string]: any } | any {
+  const emailControl = group.get('email');
+  const confirmEmailControl = group.get('confirmEmail');
+
+  if (emailControl.value === confirmEmailControl.value || confirmEmailControl.pristine) {
+    return null;
+  }
+  return { 'emailMismatch': true };
+}
