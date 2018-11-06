@@ -52,16 +52,20 @@ export class CreateEmployeeComponent implements OnInit {
         confirmEmail: ['', [Validators.required]]
       }, { validator: matchEmail }),
       phone: [''],
-      skills: this.fb.group({
-        skillName: ['', Validators.required],
-        experienceInYears: ['', Validators.required],
-        proficiency: ['', Validators.required]
-      })
+      skills: this.fb.array([
+        this.addSkillFormGroup()
+      ])
     });
-
     this.employeeForm.get('contactPreference').valueChanges.subscribe((data: string) => this.onContactPreferenceChanged(data));
-
     this.employeeForm.valueChanges.subscribe(() => this.logValidationErrors(this.employeeForm));
+  }
+
+  addSkillFormGroup(): FormGroup {
+    return this.fb.group({
+      skillName: ['', Validators.required],
+      experienceInYears: ['', Validators.required],
+      proficiency: ['', Validators.required]
+    });
   }
 
   logValidationErrors(group: FormGroup = this.employeeForm): void {
@@ -76,9 +80,15 @@ export class CreateEmployeeComponent implements OnInit {
           }
         }
       }
-
       if (control instanceof FormGroup) {
         this.logValidationErrors(control);
+      }
+      if (control instanceof FormArray) {
+       for (const ctrl of control.controls) {
+          if (ctrl instanceof FormGroup) {
+            this.logValidationErrors(ctrl);
+          }
+       }
       }
     });
   }
@@ -86,46 +96,7 @@ export class CreateEmployeeComponent implements OnInit {
   onSubmit(): void {
   }
 
-  onLoadDataClick(): void {
-    // const formArray = new FormArray([
-    //   new FormControl('John', Validators.required),
-    //   new FormGroup({
-    //     country: new FormControl('', Validators.required)
-    //   }),
-    //   new FormArray([])
-    // ]);
-    // console.log(formArray.length);
-
-    const formArray1 = this.fb.array([
-      new FormControl('John', Validators.required),
-      new FormControl('IT', Validators.required),
-      new FormControl('d', Validators.required),
-    ]);
-    formArray1.push(new FormControl('Mark', Validators.required));
-    // console.log(formArray1.value);
-    // console.log(formArray1.valid);
-    // console.log(formArray1.at(3).value);
-
-    const formGroup = this.fb.group([
-      new FormControl('John', Validators.required),
-      new FormControl('IT', Validators.required),
-      new FormControl('d', Validators.required),
-    ]);
-
-    console.log(formArray1);
-    console.log(formGroup);
-
-    // for (const control of formArray.controls) {
-    //   if (control instanceof FormControl) {
-    //     console.log('Control is FormControl');
-    //   }
-    //   if (control instanceof FormGroup) {
-    //     console.log('Control is FormGroup');
-    //   }
-    //   if (control instanceof FormArray) {
-    //     console.log('Control is FormArray');
-    //   }
-    // }
+  onLoadDataClick(): void { 
   }
 
   onContactPreferenceChanged(selectedValue: string) {

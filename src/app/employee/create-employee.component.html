@@ -74,60 +74,63 @@
       </div>
 
       <!-- Skills -->
-      <div formGroupName="skills">
-        <div class="form-group form-inline">
-          <!-- Skills Name -->
-          <label for="skillName" class="col-sm-2 control-label">Skill</label>
-          <div class="col-sm-4">
-            <input type="text" id="skillName" placeholder="Name" formControlName="skillName" class="form-control"
-              (blur)="logValidationErrors()" [class.is-invalid]="formErrors.skillName">
-            <span class="invalid-feedback">
-              {{formErrors.skillName}}
-            </span>
-          </div>
 
-          <!-- Experience in Years -->
-          <div class="col-sm-4">
-            <input type="text" class="form-control" placeholder="Experience in Years" formControlName="experienceInYears"
-              (blur)="logValidationErrors()" [class.is-invalid]="formErrors.experienceInYears">
-            <span class="invalid-feedback">
-              {{formErrors.experienceInYears}}
-            </span>
-          </div>
-        </div>
+      <div formArrayName="skills">
+        <div formGroupName="0">
+          <div class="form-group form-inline">
+            <!-- Skills Name -->
+            <label for="skillName" class="col-sm-2 control-label">Skill</label>
+            <div class="col-sm-4">
+              <input type="text" id="skillName" placeholder="Name" formControlName="skillName" class="form-control"
+                (blur)="logValidationErrors()" [class.is-invalid]="formErrors.skillName">
+              <span class="invalid-feedback">
+                {{formErrors.skillName}}
+              </span>
+            </div>
 
-        <!-- Proficiency -->
-        <div class="form-group form-inline">
-          <div class="col-sm-2">
-            <label>Proficiency</label>
-          </div>
-          <div class="col-sm-8">
-            <div class="form-check-inline">
-              <label class="form-check-label">
-                <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
-                  value="beginner" formControlName="proficiency" class="form-check-input">Beginner <br>
-              </label>
-            </div>
-            <div class="form-check-inline">
-              <label class="form-check-label">
-                <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
-                  value="intermediate" formControlName="proficiency" class="form-check-input">intermediate
-              </label>
-            </div>
-            <div class="form-check-inline">
-              <label class="form-check-label">
-                <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
-                  value="advanced" formControlName="proficiency" class="form-check-input">Advanced
-              </label>
-            </div>
-            <div *ngIf="formErrors.proficiency">
-              <span [class.is-invalid]="formErrors.proficiency">{{formErrors.proficiency}}</span>
+            <!-- Experience in Years -->
+            <div class="col-sm-4">
+              <input type="text" class="form-control" placeholder="Experience in Years" formControlName="experienceInYears"
+                (blur)="logValidationErrors()" [class.is-invalid]="formErrors.experienceInYears">
+              <span class="invalid-feedback">
+                {{formErrors.experienceInYears}}
+              </span>
             </div>
           </div>
 
+          <!-- Proficiency -->
+          <div class="form-group form-inline">
+            <div class="col-sm-2">
+              <label>Proficiency</label>
+            </div>
+            <div class="col-sm-8">
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                    value="beginner" formControlName="proficiency" class="form-check-input">Beginner <br>
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                    value="intermediate" formControlName="proficiency" class="form-check-input">intermediate
+                </label>
+              </div>
+              <div class="form-check-inline">
+                <label class="form-check-label">
+                  <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                    value="advanced" formControlName="proficiency" class="form-check-input">Advanced
+                </label>
+              </div>
+              <div *ngIf="formErrors.proficiency">
+                <span [class.is-invalid]="formErrors.proficiency">{{formErrors.proficiency}}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="card-footer">
       <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group mr-2" role="group" aria-label="First group">
