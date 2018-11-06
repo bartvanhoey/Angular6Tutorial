@@ -74,62 +74,70 @@
       </div>
 
       <!-- Skills -->
-
-      <div formArrayName="skills">
-        <div formGroupName="0">
-          <div class="form-group form-inline">
-            <!-- Skills Name -->
-            <label for="skillName" class="col-sm-2 control-label">Skill</label>
-            <div class="col-sm-4">
-              <input type="text" id="skillName" placeholder="Name" formControlName="skillName" class="form-control"
-                (blur)="logValidationErrors()" [class.is-invalid]="formErrors.skillName">
-              <span class="invalid-feedback">
-                {{formErrors.skillName}}
-              </span>
-            </div>
-
-            <!-- Experience in Years -->
-            <div class="col-sm-4">
-              <input type="text" class="form-control" placeholder="Experience in Years" formControlName="experienceInYears"
-                (blur)="logValidationErrors()" [class.is-invalid]="formErrors.experienceInYears">
-              <span class="invalid-feedback">
-                {{formErrors.experienceInYears}}
-              </span>
-            </div>
+      <div style="background-color:aqua">
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-4">
+            <button type="button" class="btn btn-primary" (click)='addSkillButtonClick()' >Add Skill</button>
           </div>
+        </div>
 
-          <!-- Proficiency -->
-          <div class="form-group form-inline">
-            <div class="col-sm-2">
-              <label>Proficiency</label>
+        <div formArrayName="skills" *ngFor="let skill of employeeForm.get('skills').controls; let i = index">
+          <div [formGroupName]="i">
+            <div class="form-group form-inline">
+              <!-- Skills Name -->
+              <label for="skillName" class="col-sm-2 control-label">Skill</label>
+              <div class="col-sm-4">
+                <input type="text" id="skillName" placeholder="Name" formControlName="skillName" class="form-control"
+                  (blur)="logValidationErrors()" [class.is-invalid]="formErrors.skillName">
+                <span class="invalid-feedback">
+                  {{formErrors.skillName}}
+                </span>
+              </div>
+
+              <!-- Experience in Years -->
+              <div class="col-sm-4">
+                <input type="text" class="form-control" placeholder="Experience in Years" formControlName="experienceInYears"
+                  (blur)="logValidationErrors()" [class.is-invalid]="formErrors.experienceInYears">
+                <span class="invalid-feedback">
+                  {{formErrors.experienceInYears}}
+                </span>
+              </div>
             </div>
-            <div class="col-sm-8">
-              <div class="form-check-inline">
-                <label class="form-check-label">
-                  <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
-                    value="beginner" formControlName="proficiency" class="form-check-input">Beginner <br>
-                </label>
+
+            <!-- Proficiency -->
+            <div class="form-group form-inline">
+              <div class="col-sm-2">
+                <label>Proficiency</label>
               </div>
-              <div class="form-check-inline">
-                <label class="form-check-label">
-                  <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
-                    value="intermediate" formControlName="proficiency" class="form-check-input">intermediate
-                </label>
-              </div>
-              <div class="form-check-inline">
-                <label class="form-check-label">
-                  <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
-                    value="advanced" formControlName="proficiency" class="form-check-input">Advanced
-                </label>
-              </div>
-              <div *ngIf="formErrors.proficiency">
-                <span [class.is-invalid]="formErrors.proficiency">{{formErrors.proficiency}}</span>
+              <div class="col-sm-8">
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                      value="beginner" formControlName="proficiency" class="form-check-input">Beginner <br>
+                  </label>
+                </div>
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                      value="intermediate" formControlName="proficiency" class="form-check-input">intermediate
+                  </label>
+                </div>
+                <div class="form-check-inline">
+                  <label class="form-check-label">
+                    <input (blur)="logValidationErrors()" [class.is-invalid]="formErrors.proficiency" type="radio" id="proficiency"
+                      value="advanced" formControlName="proficiency" class="form-check-input">Advanced
+                  </label>
+                </div>
+                <div *ngIf="formErrors.proficiency">
+                  <span [class.is-invalid]="formErrors.proficiency">{{formErrors.proficiency}}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
 
     <div class="card-footer">
       <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -145,43 +153,21 @@
 </form>
 
 <table border="1">
-  <tr>
-    <th style="padding:10px">Email</th>
-  </tr>
-  <tr>
-    <td style="padding:10px">touched: {{employeeForm.get('emailGroup').get('email').touched}}
-      <br>dirty: {{employeeForm.get('emailGroup').get('email').dirty}}
-      <br>valid: {{employeeForm.get('emailGroup').get('email').valid}}
-      <br>value: {{employeeForm.get('emailGroup').get('email').value | json}}
-      <br>errors: {{employeeForm.get('emailGroup').get('email').errors | json}}
-    </td>
-  </tr>
-</table>
-
-<table border="1">
-  <tr>
-    <th style="padding:10px">Confirm Email</th>
-  </tr>
-  <tr>
-    <td style="padding:10px">touched: {{employeeForm.get('emailGroup').get('confirmEmail').touched}}
-      <br>dirty: {{employeeForm.get('emailGroup').get('confirmEmail').dirty}}
-      <br>valid: {{employeeForm.get('emailGroup').get('confirmEmail').valid}}
-      <br>value: {{employeeForm.get('emailGroup').get('confirmEmail').value | json}}
-      <br>errors: {{employeeForm.get('emailGroup').get('confirmEmail').errors | json}}
-    </td>
-  </tr>
-</table>
-
-<table border="1">
-  <tr>
-    <th style="padding:10px">Form Group</th>
-  </tr>
-  <tr>
-    <td style="padding:10px">touched: {{employeeForm.get('emailGroup').touched}}
-      <br>dirty: {{employeeForm.get('emailGroup').dirty}}
-      <br>valid: {{employeeForm.get('emailGroup').valid}}
-      <br>value: {{employeeForm.get('emailGroup').value | json}}
-      <br>errors: {{employeeForm.get('emailGroup').errors | json}}
-    </td>
-  </tr>
-</table>
+    <tr>
+      <th style="padding:10px">FormGroup</th>
+      <th style="padding:10px">FormControl (fullName)</th>
+    </tr>
+    <tr>
+      <td style="padding:10px">touched: {{employeeForm.touched}}
+        <br>dirty: {{employeeForm.dirty}}
+        <br>valid: {{employeeForm.valid}}
+        <br>value: {{employeeForm.value | json}}
+      </td>
+      <td style="padding:10px">touched: {{employeeForm.get('fullName').touched}}
+        <br>dirty: {{employeeForm.get('fullName').dirty}}
+        <br>valid: {{employeeForm.get('fullName').valid}}
+        <br>value: {{employeeForm.get('fullName').value | json}}
+      </td>
+  
+    </tr>
+  </table>

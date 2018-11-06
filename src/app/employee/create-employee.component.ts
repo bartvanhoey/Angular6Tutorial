@@ -68,6 +68,12 @@ export class CreateEmployeeComponent implements OnInit {
     });
   }
 
+  addSkillButtonClick(): void {
+   (<FormArray>this.employeeForm.get('skills')).push(this.addSkillFormGroup());
+  }
+
+
+
   logValidationErrors(group: FormGroup = this.employeeForm): void {
     Object.keys(group.controls).forEach((key: string) => {
       const control = group.get(key);
@@ -84,11 +90,11 @@ export class CreateEmployeeComponent implements OnInit {
         this.logValidationErrors(control);
       }
       if (control instanceof FormArray) {
-       for (const ctrl of control.controls) {
+        for (const ctrl of control.controls) {
           if (ctrl instanceof FormGroup) {
             this.logValidationErrors(ctrl);
           }
-       }
+        }
       }
     });
   }
@@ -96,7 +102,7 @@ export class CreateEmployeeComponent implements OnInit {
   onSubmit(): void {
   }
 
-  onLoadDataClick(): void { 
+  onLoadDataClick(): void {
   }
 
   onContactPreferenceChanged(selectedValue: string) {
