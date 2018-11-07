@@ -85,9 +85,9 @@
           <div [formGroupName]="i">
             <div class="form-group form-inline">
               <!-- Skills Name -->
-              <label for="skillName" class="col-sm-2 control-label">Skill</label>
+              <label [attr.for]="'skillName'+i" class="col-sm-2 control-label">Skill</label>
               <div class="col-sm-4">
-                <input type="text" id="skillName" placeholder="Name" formControlName="skillName" class="form-control"
+            <input type="text" [id]="'skillName'+i" placeholder="Name" formControlName="skillName" class="form-control"
                   (blur)="logValidationErrors()" [class.is-invalid]="formErrors.skillName">
                 <span class="invalid-feedback">
                   {{formErrors.skillName}}
@@ -96,7 +96,8 @@
 
               <!-- Experience in Years -->
               <div class="col-sm-4">
-                <input type="text" class="form-control" placeholder="Experience in Years" formControlName="experienceInYears"
+                <input type="text" [id]="experienceInYears" class="form-control" placeholder="Experience in Years" 
+                  formControlName="experienceInYears"
                   (blur)="logValidationErrors()" [class.is-invalid]="formErrors.experienceInYears">
                 <span class="invalid-feedback">
                   {{formErrors.experienceInYears}}
