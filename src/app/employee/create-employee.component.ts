@@ -25,21 +25,12 @@ export class CreateEmployeeComponent implements OnInit {
     },
     'emailGroup': { 'emailMismatch': 'Email and Confirm Email do not match' },
     'phone': { 'required': 'Phone is required.' },
-    'skillName': { 'required': 'Skill Name is required.' },
-    'experienceInYears': { 'required': 'Experience is required.' },
-    'proficiency': { 'required': 'Proficiency is required.' }
+    'skillName': { 'required': 'SkillName is required.' },
+    'experienceInYears': { 'required': 'Experience in years is required.' },
+    'proficiency': { 'required': 'Proficiency is required.' },
   };
 
-  formErrors = {
-    'fullName': '',
-    'email': '',
-    'confirmEmail': '',
-    'emailGroup': '',
-    'phone': '',
-    'skillName': '',
-    'experienceInYears': '',
-    'proficiency': '',
-  };
+  formErrors = {};
 
   constructor(private fb: FormBuilder) { }
 
@@ -69,10 +60,8 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   addSkillButtonClick(): void {
-   (<FormArray>this.employeeForm.get('skills')).push(this.addSkillFormGroup());
+    (<FormArray>this.employeeForm.get('skills')).push(this.addSkillFormGroup());
   }
-
-
 
   logValidationErrors(group: FormGroup = this.employeeForm): void {
     Object.keys(group.controls).forEach((key: string) => {
