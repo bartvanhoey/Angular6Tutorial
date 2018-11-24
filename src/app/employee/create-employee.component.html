@@ -75,14 +75,23 @@
 
       <!-- Skills -->
       <div style="background-color:aqua" class="col-md-offset-2 col-md-8">
-        <button [disabled]="employeeForm.get('skills').invalid" type="button" class="btn btn-primary" (click)='addSkillButtonClick()'>Add
-          Skill</button>
+
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+          <div class="btn-group mr-2" role="group" aria-label="First group">
+            <button [disabled]="employeeForm.get('skills').invalid" type="button" class="btn btn-primary" (click)='addSkillButtonClick()'>Add
+              Skill</button>
+          </div>
+          <div class="btn-group mr-2" role="group" aria-label="Second group">
+            <button class="btn btn-primary" type="button">Todo</button>
+          </div>
+        </div>
+
         <div formArrayName="skills" *ngFor="let skill of employeeForm.get('skills').controls; let i = index">
           <hr *ngIf="i>0">
           <div [formGroupName]="i">
             <div class="form-row">
               <!-- Skills Name -->
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <label [for]="'skillName'+i">Skills</label>
                 <input [class.is-invalid]="skill.get('skillName').invalid && skill.get('skillName').touched" type="text"
                   [id]="'skillName'+i" placeholder="Skill name..." formControlName="skillName" class="form-control">
@@ -92,7 +101,7 @@
               </div>
 
               <!-- Experience in Years -->
-              <div class="col-sm-4">
+              <div class="col-sm-3">
                 <label [for]="'skillName'+i">Experience</label>
                 <input [class.is-invalid]="skill.get('experienceInYears').invalid && skill.get('experienceInYears').touched"
                   type="text" [id]="'experienceInYears'+i" class="form-control" placeholder="Experience in years..."
@@ -101,7 +110,17 @@
                   Experience in years is required
                 </span>
               </div>
+
+              <!-- delete skill -->
+              <div class="col-sm-6" *ngIf="employeeForm.get('skills').length > 1">
+                  <label for="deleteSkill">&nbsp;</label>
+                  <div class="col-sm-8">
+                    <button (click)='removeSkillButtonClick(i)' title="Delete Skill" id="deleteSkill" type="button" class="btn btn-danger float-right"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
             </div>
+
+
 
             <!-- Proficiency -->
             <div class="custom-control-inline"><label [class.text-success]="skill.get('proficiency').valid"

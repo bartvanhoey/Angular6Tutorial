@@ -63,6 +63,10 @@ export class CreateEmployeeComponent implements OnInit {
     (<FormArray>this.employeeForm.get('skills')).push(this.addSkillFormGroup());
   }
 
+  removeSkillButtonClick(index: number): void {
+    (<FormArray>this.employeeForm.get('skills')).removeAt(index);
+  }
+
   logValidationErrors(group: FormGroup = this.employeeForm): void {
     Object.keys(group.controls).forEach((key: string) => {
       const control = group.get(key);
@@ -96,7 +100,7 @@ export class CreateEmployeeComponent implements OnInit {
 
   onContactPreferenceChanged(selectedValue: string) {
     const phoneControl = this.employeeForm.get('phone');
-    const emailControl = this.employeeForm.get('email');
+    const emailControl = this.employeeForm.get('emailGroup').get('email');
 
     if (selectedValue === 'phone') {
       phoneControl.setValidators([Validators.required]);
