@@ -74,18 +74,15 @@
       </div>
 
       <!-- Skills -->
-      <div style="background-color:aqua">
-        <div class="form-group">
-          <div class="col-md-offset-2 col-md-4">
-            <button type="button" class="btn btn-primary" (click)='addSkillButtonClick()'>Add Skill</button>
-          </div>
-        </div>
-
+      <div style="background-color:aqua" class="col-md-offset-2 col-md-8">
+        <button [disabled]="employeeForm.get('skills').invalid" type="button" class="btn btn-primary" (click)='addSkillButtonClick()'>Add
+          Skill</button>
         <div formArrayName="skills" *ngFor="let skill of employeeForm.get('skills').controls; let i = index">
+          <hr *ngIf="i>0">
           <div [formGroupName]="i">
             <div class="form-row">
               <!-- Skills Name -->
-              <div class="col-sm-2">
+              <div class="col-sm-4">
                 <label [for]="'skillName'+i">Skills</label>
                 <input [class.is-invalid]="skill.get('skillName').invalid && skill.get('skillName').touched" type="text"
                   [id]="'skillName'+i" placeholder="Skill name..." formControlName="skillName" class="form-control">
@@ -95,7 +92,7 @@
               </div>
 
               <!-- Experience in Years -->
-              <div class="col-sm-2">
+              <div class="col-sm-4">
                 <label [for]="'skillName'+i">Experience</label>
                 <input [class.is-invalid]="skill.get('experienceInYears').invalid && skill.get('experienceInYears').touched"
                   type="text" [id]="'experienceInYears'+i" class="form-control" placeholder="Experience in years..."
@@ -132,7 +129,6 @@
             <div *ngIf="skill.get('proficiency').invalid && skill.get('proficiency').touched">
               <span class="text-danger">Proficiency is required</span>
             </div>
-
           </div>
         </div>
       </div>
