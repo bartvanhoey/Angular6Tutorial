@@ -81,9 +81,6 @@
             <button [disabled]="employeeForm.get('skills').invalid" type="button" class="btn btn-primary" (click)='addSkillButtonClick()'>Add
               Skill</button>
           </div>
-          <div class="btn-group mr-2" role="group" aria-label="Second group">
-            <button class="btn btn-primary" type="button">Todo</button>
-          </div>
         </div>
 
         <div formArrayName="skills" *ngFor="let skill of employeeForm.get('skills').controls; let i = index">
@@ -113,11 +110,12 @@
 
               <!-- delete skill -->
               <div class="col-sm-6" *ngIf="employeeForm.get('skills').length > 1">
-                  <label for="deleteSkill">&nbsp;</label>
-                  <div class="col-sm-8">
-                    <button (click)='removeSkillButtonClick(i)' title="Delete Skill" id="deleteSkill" type="button" class="btn btn-danger float-right"><i class="fa fa-times"></i></button>
-                  </div>
+                <label for="deleteSkill">&nbsp;</label>
+                <div class="col-sm-8">
+                  <button (click)='removeSkillButtonClick(i)' title="Delete Skill" id="deleteSkill" type="button" class="btn btn-danger float-right"><i
+                      class="fa fa-times"></i></button>
                 </div>
+              </div>
             </div>
 
 
@@ -158,8 +156,8 @@
     <div class="card-footer">
       <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group mr-2" role="group" aria-label="First group">
-          <button class="btn btn-primary" type="submit">Save</button>
-        </div>
+          <button [disabled]="employeeForm.invalid" class="btn btn-primary" type="submit">Save</button>
+        </div>  
         <div class="btn-group mr-2" role="group" aria-label="Second group">
           <button class="btn btn-primary" type="button" (click)='onLoadDataClick()'>Load Data</button>
         </div>

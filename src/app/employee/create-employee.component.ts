@@ -1,7 +1,10 @@
+import { CustomValidators } from './../../shared/custom.validators';
+import { EmployeeService } from './employee.service';
 import { AbstractControl, FormArray, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CustomValidators } from '../../shared/custom.validators';
+import { ActivatedRoute } from '@angular/router';
+import { IEmployee } from './IEmployee';
 
 @Component({
   selector: 'app-create-employee',
@@ -19,7 +22,7 @@ export class CreateEmployeeComponent implements OnInit {
     },
     'email': {
       'required': 'Email is required.',
-      'emailDomain': 'Email domain should be hotmail.com'
+      'emailDomain': 'Email domain should be dell.com'
     }, 'confirmEmail': {
       'required': 'Email is required.',
     },
@@ -32,14 +35,16 @@ export class CreateEmployeeComponent implements OnInit {
 
   formErrors = {};
 
-  constructor(private fb: FormBuilder) { }
+
+  constructor(private _validators: CustomValidators, private _employeeService: EmployeeService,
+    private _route: ActivatedRoute, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.employeeForm = this.fb.group({
       fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       contactPreference: ['email'],
       emailGroup: this.fb.group({
-        email: ['', [Validators.required, CustomValidators.emailDomain('hotmail.com')]],
+        email: ['', [Validators.required, this._validators.emailDomain('dell.com')]],
         confirmEmail: ['', [Validators.required]]
       }, { validator: matchEmail }),
       phone: [''],
@@ -49,6 +54,31 @@ export class CreateEmployeeComponent implements OnInit {
     });
     this.employeeForm.get('contactPreference').valueChanges.subscribe((data: string) => this.onContactPreferenceChanged(data));
     this.employeeForm.valueChanges.subscribe(() => this.logValidationErrors(this.employeeForm));
+
+    this._route.paramMap.subscribe(params => {
+      const employeeId = +params.get('id');
+      if (employeeId) {
+        this.getEmployeeId(employeeId);
+      }
+    });
+  }
+
+  getEmployeeId(employeeId: number) {
+    this._employeeService.getEmployee(employeeId)
+      .subscribe((employee: IEmployee) => this.editEmployee(employee),
+        (error: any) => console.error('getEmployeeId: ', error));
+  }
+
+  editEmployee(employee: IEmployee) {
+    this.employeeForm.patchValue({
+      fullName: employee.fullName,
+      contactPreference: employee.contactPreference,
+      emailGroup: {
+        email: employee.email,
+        confirmEmail: employee.email
+      },
+      phone: employee.phone
+    });
   }
 
   addSkillFormGroup(): FormGroup {
@@ -71,7 +101,7 @@ export class CreateEmployeeComponent implements OnInit {
     Object.keys(group.controls).forEach((key: string) => {
       const control = group.get(key);
       this.formErrors[key] = '';
-      if (control && !control.valid && (control.touched || control.dirty)) {
+      if (control && !control.valid && (control.touched || control.dirty || control.value !== '')) {
         const messages = this.validationMessages[key];
         for (const errorKey in control.errors) {
           if (errorKey) {
@@ -122,8 +152,11 @@ function matchEmail(group: AbstractControl): { [key: string]: any } | any {
   const emailControl = group.get('email');
   const confirmEmailControl = group.get('confirmEmail');
 
-  if (emailControl.value === confirmEmailControl.value || confirmEmailControl.pristine) {
+  if (emailControl.value === confirmEmailControl.value
+    || (confirmEmailControl.pristine && confirmEmailControl.value === '')) {
     return null;
   }
   return { 'emailMismatch': true };
+
+
 }
