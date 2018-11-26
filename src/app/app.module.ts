@@ -1,3 +1,4 @@
+import { CustomValidators } from './../shared/custom.validators';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [EmployeeService],
+  providers: [EmployeeService, CustomValidators],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
