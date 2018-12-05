@@ -32,6 +32,20 @@
         }
       ],
       "email": "bartvanhoey@gmail.com"
+    },
+    {
+      "id": 3,
+      "fullName": "David",
+      "contactPreference": "email",
+      "email": "bartvanhoey@hotmail.com",
+      "phone": "0485947097",
+      "skills": [
+        {
+          "skillName": "Typescript",
+          "experienceInYears": "5",
+          "proficiency": "beginner"
+        }
+      ]
     }
   ]
 }
