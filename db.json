@@ -1,47 +1,37 @@
 {
-    "employees": [
+  "employees": [
+    {
+      "id": 1,
+      "fullName": "Markie",
+      "contactPreference": "email",
+      "phone": "+33485947097",
+      "skills": [
         {
-            "id": 1,
-            "fullName": "Mark",
-            "contactPreference": "email",
-            "email": "mark@email.com",
-            "phone": "5641238971",
-            "skills": [
-                {
-                    "skillName": "C#",
-                    "experienceInYears": 1,
-                    "proficiency": "beginner"
-                },
-                {
-                    "skillName": "Java",
-                    "experienceInYears": 2,
-                    "proficiency": "intermediate"
-                }
-            ]
+          "skillName": "C#",
+          "experienceInYears": 1,
+          "proficiency": "beginner"
         },
         {
-            "id": 2,
-            "fullName": "John",
-            "contactPreference": "phone",
-            "email": "john@email.com",
-            "phone": "3242138971",
-            "skills": [
-                {
-                    "skillName": "Angular",
-                    "experienceInYears": 2,
-                    "proficiency": "beginner"
-                },
-                {
-                    "skillName": "HTML",
-                    "experienceInYears": 2,
-                    "proficiency": "intermediate"
-                },
-                {
-                    "skillName": "LINQ",
-                    "experienceInYears": 3,
-                    "proficiency": "advanced"
-                }
-            ]
+          "skillName": "Java",
+          "experienceInYears": 2,
+          "proficiency": "intermediate"
         }
-    ]
+      ],
+      "email": "bartvanhoey@hotmail.com"
+    },
+    {
+      "id": 2,
+      "fullName": "Bart",
+      "contactPreference": "phone",
+      "phone": "485947097",
+      "skills": [
+        {
+          "skillName": "Angular",
+          "experienceInYears": 2,
+          "proficiency": "intermediate"
+        }
+      ],
+      "email": "bartvanhoey@gmail.com"
+    }
+  ]
 }
