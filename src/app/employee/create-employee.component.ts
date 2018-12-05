@@ -3,7 +3,7 @@ import { EmployeeService } from './employee.service';
 import { AbstractControl, FormArray, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IEmployee } from './IEmployee';
 import { ISkill } from './ISkill';
 
@@ -14,6 +14,7 @@ import { ISkill } from './ISkill';
 })
 export class CreateEmployeeComponent implements OnInit {
   employeeForm: FormGroup;
+  employee: IEmployee;
 
   validationMessages = {
     'fullName': {
@@ -37,7 +38,7 @@ export class CreateEmployeeComponent implements OnInit {
   formErrors = {};
 
 
-  constructor(private _validators: CustomValidators, private _employeeService: EmployeeService,
+  constructor(private router: Router private _validators: CustomValidators, private _employeeService: EmployeeService,
     private _route: ActivatedRoute, private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -66,7 +67,10 @@ export class CreateEmployeeComponent implements OnInit {
 
   getEmployeeId(employeeId: number) {
     this._employeeService.getEmployee(employeeId)
-      .subscribe((employee: IEmployee) => this.editEmployee(employee),
+      .subscribe((employee: IEmployee) => {
+        this.editEmployee(employee),
+          this.employee = employee;
+      },
         (error: any) => console.error('getEmployeeId: ', error));
   }
 
@@ -108,10 +112,10 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   removeSkillButtonClick(index: number): void {
-   const skillsFormArray =   (<FormArray>this.employeeForm.get('skills'));
-   skillsFormArray.removeAt(index);
-   skillsFormArray.markAsDirty();
-   skillsFormArray.markAsTouched();
+    const skillsFormArray = (<FormArray>this.employeeForm.get('skills'));
+    skillsFormArray.removeAt(index);
+    skillsFormArray.markAsDirty();
+    skillsFormArray.markAsTouched();
   }
 
   logValidationErrors(group: FormGroup = this.employeeForm): void {
@@ -139,7 +143,20 @@ export class CreateEmployeeComponent implements OnInit {
     });
   }
 
+  mapFormValuesToEmployeeModel() {
+    this.employee.fullName = this.employeeForm.value.fullName;
+    this.employee.contactPreference = this.employeeForm.value.contactPreference;
+    this.employee.email = this.employeeForm.value.emailGroup.email;
+    this.employee.phone = this.employeeForm.value.phone;
+    this.employee.skills = this.employeeForm.value.skills;
+  }
+
   onSubmit(): void {
+    console.log("form: ", this.employeeForm);
+    console.log("email: ", this.employeeForm.value.emailGroup.email);
+    this.mapFormValuesToEmployeeModel();
+    this._employeeService.updateEmployee(this.employee)
+      .subscribe(() => this.router.navigate(['list']), (err: any) => console.log(err));
   }
 
   onLoadDataClick(): void {
