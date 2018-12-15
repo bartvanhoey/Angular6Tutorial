@@ -16,15 +16,6 @@ const appRoutes: Routes = [
   { path: '**', component: PageNotFoundComponent }
 ];
 
-// const appRoutes: Routes = [
-//   // home route
- 
-//   { path: 'list', component: ListEmployeesComponent },
-//   { path: 'create', component: CreateEmployeeComponent },
-//   { path: 'edit/:id', component: CreateEmployeeComponent },
-
-// ];
-
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes)
