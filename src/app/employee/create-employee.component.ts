@@ -107,7 +107,7 @@ export class CreateEmployeeComponent implements OnInit {
         experienceInYears: s.experienceInYears,
         proficiency: s.proficiency
       }));
-    })
+    });
     return formArray;
   }
 
