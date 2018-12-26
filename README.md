@@ -7,4 +7,3 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ## Json-server
 
 Run `json-server --watch db.json` to run a local JSON server with employee data
-
