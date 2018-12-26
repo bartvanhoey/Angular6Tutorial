@@ -46,6 +46,20 @@
           "proficiency": "beginner"
         }
       ]
+    },
+    {
+      "id": 4,
+      "fullName": "Bart2",
+      "contactPreference": "email",
+      "email": "bartvanhoey@dell.com",
+      "phone": "485947097",
+      "skills": [
+        {
+          "skillName": "javascript",
+          "experienceInYears": "1",
+          "proficiency": "advanced"
+        }
+      ]
     }
   ]
 }
